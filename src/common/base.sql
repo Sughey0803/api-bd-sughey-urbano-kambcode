@@ -1,72 +1,58 @@
--- Sentencia de SQL que crea nuestra base de datos
+-- 1. Create database
+CREATE TABLE bootcamp_db;
 
-CREATE DATABASE plataforma_academica
-    WITH
-    OWNER = postgres
-    ENCODING = 'UTF8'
-    LOCALE_PROVIDER = 'libc'
-    CONNECTION LIMIT = -1
-    IS_TEMPLATE = False;
+-- 2.Crear la tabla students
 
--- Tablas iniciales que creamos
-
-CREATE TABLE estudiantes (
+CREATE TABLE students(
 	id SERIAL PRIMARY KEY,
-	nombre VARCHAR(100) NOT NULL,
-	edad INT,
-	direccion TEXT
+	first_name VARCHAR(100)NOT NULL,
+	last_name VARCHAR(100) NOT NULL,
+	email VARCHAR(150)UNIQUE NOT NULL
 );
 
-CREATE TABLE students (
+-- 3. Crear la tabla de cursos
+
+CREATE TABLE cursos(
 	id SERIAL PRIMARY KEY,
-	name VARCHAR(100) NOT NULL,
-	age INT,
-	address TEXT
+	title VARCHAR(255)NOT NULL,
+	description TEXT
 );
 
-CREATE TABLE profesores (
+-- 4.Crear la tabla de enrollments
+
+CREATE TABLE enrollments(
 	id SERIAL PRIMARY KEY,
-	nombre VARCHAR(100),
-	apellido VARCHAR(100),
-	profesion VARCHAR(100),
-	age INT,
-	academia VARCHAR(100)
+	student_id INT REFERENCES students(id) ON DELETE CASCADE,
+	course_id INT REFERENCES course(id)ON DELETE CASCADE,
+	grade VARCHAR(5)
 );
 
-CREATE TABLE estudiantes (
-    id SERIAL PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    edad INT,
-    correo VARCHAR(100) UNIQUE NOT NULL
-);
+-- 5. Relaciones entre las tablas
+/* **Relacion de uno a muchos**; 'students' y 'enrollments'
+    - Un estudiante puede estar inscrito en varios cursos.
+    -Un curso puede tener varios estudiantes inscritos.
 
-CREATE TABLE cursos (
-	id SERIAL PRIMARY KEY,
-	nombre VARCHAR(100) NOT NULL,
-	descripcion TEXT,
-	activo BOOLEAN DEFAULT TRUE
-);
+    **Relacion muchos a muchos**; 'students' y 'course' a traves de la tabla 'enrollments'
+    -Esto se logra con las llaves foraneas 'students_id' y 'course_id' en la tabla 'enrollments'
+*/
+-- 6. Verificar la Estructura
+SELECT* FROM students;
+SELECT* FROM course;
+SELECT* FROM enrollments;
 
-CREATE TABLE inscripciones (
-	id SERIAL PRIMARY KEY,
-	estudiante_id INT REFERENCES estudiantes(id),
-	curso_id INT REFERENCES cursos(id),
-	fecha_inscripcion DATE DEFAULT CURRENT_DATE
-);
+-- 7.Introducción de database
+-- 7.1 Insercion de tabla de estudiantes
+INSERT INTO students(first_name, last_name, email)
+VALUES('John', 'Doe', 'johndoe@example.com'),
+		('Jane', 'Smith', 'janesmith@example.com'),
+		('Michael', 'Johnson', 'michaeljohnson@example.com'),
+		('Emily', 'Davis', 'emilydavis@example.com'),
+		('Chris', 'Brown', 'chrisbrown@example.com');
 
-INSERT INTO estudiantes (nombre, edad, correo)
-VALUES ('Juan Pérez', 21, 'juan.perez@example.com'),
-('María Lopez', 25, 'maria.lopez@example.com'),
-('Carlos Garcia', 30, 'carlos.garcia@example.com');
-
-INSERT INTO cursos (nombre, descripcion, activo)
-VALUES ('Introducción a Node.js', 'Curso básico de Node.js', TRUE),
-('Desarrollo con Express', 'Curso avanzado de Express', TRUE),
-('Bases de Datos con PostgreSQL', 'Curso sobre PostgreSQL', FALSE);
-
-UPDATE estudiantes
-SET edad = 17
-WHERE id = 1;
-
-DELETE FROM estudiantes
-WHERE id = 1;
+-- 7.2 Insercion de tabla de cursos
+INSERT INTO course(title, description)
+VALUES('JohnIntroduction to Programming', 'Learn the basics of programming using Python'),
+		('Web Development', 'Build and design websites using HTML, CSS and JavaScript'),
+		('Database Design', 'Undertand database concepts and learn SQL'),
+		('Machine Learning', 'Introduction to machine learning, concepts and tools');
+		
