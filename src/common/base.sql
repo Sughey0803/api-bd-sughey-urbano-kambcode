@@ -56,3 +56,14 @@ VALUES('JohnIntroduction to Programming', 'Learn the basics of programming using
 		('Database Design', 'Undertand database concepts and learn SQL'),
 		('Machine Learning', 'Introduction to machine learning, concepts and tools');
 		
+-- 7.3 Insercion de tabla de inscripciones
+INSERT INTO enrollments(students_id, course_id, grade)
+VALUES (1, 1, 'A'),
+        (1, 3, 'B'),
+        (2, 2, 'A'),
+        (2, 4, 'A'),
+        (3, 1, 'B'),
+        (3, 2, 'C'),
+        (4, 5, 'A'),
+        (5, 3, 'B'),
+        (5, 4, 'A');
