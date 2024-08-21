@@ -1,20 +1,25 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database.js');
+const Student = require('../models/student');
 
-const Course = sequelize.define('Course', {
-    id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-    },
-    title: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    description: {
-        type: DataTypes.TEXT,
-        allowNull: true,
-    },
-});
+const getAllStudents = async (req, res) => {
+    try {
+        const students = await Student.findAll();
+        res.json(students);
+    } catch (err) {
+        res.status(500).json({ error: 'Error al obtener los estudiantes.' });
+    }
+};
 
-module.exports = Course;
+const createStudent = async (req, res) => {
+    try {
+        const { first_name, last_name, email } = req.body;
+        const student = await Student.create({ first_name, last_name, email });
+        res.status(201).json(student);
+    } catch (err) {
+        res.status(500).json({ error: 'Error al crear el estudiante.' });
+    }
+};
+
+module.exports = {
+    getAllStudents,
+    createStudent,
+};

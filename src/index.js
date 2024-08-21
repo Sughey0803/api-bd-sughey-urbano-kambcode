@@ -1,5 +1,6 @@
 const app = require('./app');
 const port = process.env.PORT || 3000;
+
 app.listen(port, () => {
-    console.log('Servidor esta siendo escuchado en el puerto $(PORT)');
+    console.log(`Servidor está siendo escuchado en el puerto ${port}`);
 });

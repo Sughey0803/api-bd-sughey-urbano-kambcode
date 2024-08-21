@@ -1,15 +1,18 @@
-const {Sequelize} = require('sequelize');
-require ('dotenv').config();
+const { Sequelize } = require('sequelize');
+require('dotenv').config();
+
 const sequelize = new Sequelize(
     process.env.DB_NAME,
     process.env.DB_USER,
-    process.env.DB_PASSWORD, {
+    process.env.DB_PASSWORD, 
+    {
         host: process.env.DB_HOST,
-        dialect: 'postgress',
+        dialect: 'postgres', // Corregido de 'postgress' a 'postgres'
     }
 );
-Sequelize.authenticate()
-    .then(() => console.log('Conexion a base de datos, fue exitosa'))
-    .cathc(err => console.error('No se pudo conectar la base de datos, err'));
+
+sequelize.authenticate() // Corregido de Sequelize.authenticate() a sequelize.authenticate()
+    .then(() => console.log('Conexión a base de datos, fue exitosa'))
+    .catch(err => console.error('No se pudo conectar a la base de datos:', err)); // Corregido de .cathc a .catch
 
 module.exports = sequelize;

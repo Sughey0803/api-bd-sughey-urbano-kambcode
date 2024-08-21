@@ -20,6 +20,7 @@ const Student = sequelize.define('Student', {
         allowNull: false,
         unique: true,
     },
+}, {
+    tableName: 'students',  // Opcional: Especifica el nombre de la tabla en la base de datos
+    timestamps: false,       // Opcional: Desactiva createdAt
 });
-
-module.exports = Student;

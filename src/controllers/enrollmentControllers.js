@@ -1,24 +1,25 @@
 const Enrollment = require('../models/enrollment');
-const getAllEnrollment = async (req, res) => {
+
+const getAllEnrollments = async (req, res) => {
     try {
-        const enrollment = await Enrollment.findAll();
-        res.json(enrollment);
-         
-    }catch(err) {
-        res.status(500).json({error: 'Error al obtener inscripcion.'});
+        const enrollments = await Enrollment.findAll(); // Cambié el nombre a "enrollments" para mayor claridad
+        res.json(enrollments);
+    } catch (err) {
+        res.status(500).json({ error: 'Error al obtener inscripciones.' }); // Cambié el mensaje para que esté en plural
     }
 };
+
 const createEnrollment = async (req, res) => {
     try {
-        const {studentId, courseId, grade} = req.body;
-        const enrollment = await Enrollment.create({StudentId: studentId, CourseId: courseId, grade});
+        const { studentId, courseId, grade } = req.body;
+        const enrollment = await Enrollment.create({ studentId, courseId, grade }); // Usar "studentId" y "courseId" directamente en lugar de "StudentId" y "CourseId"
         res.status(201).json(enrollment);
-         
-    }catch(err) {
-        res.status(500).json({error: 'Error al crear inscripcion.'});
+    } catch (err) {
+        res.status(500).json({ error: 'Error al crear inscripción.' });
     }
 };
+
 module.exports = {
-    getAllEnrollment,
+    getAllEnrollments, // Cambié el nombre para mantener consistencia
     createEnrollment,
 };
